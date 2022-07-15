@@ -2,14 +2,16 @@ import mesa
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import UserSettableParameter
+from traitlets import Integer
 from model import CareHomeModel
 from agent import ResidentAgent
+from agent import RobotAgent
 from mesa.visualization.modules import CanvasGrid
 
 NUMBER_OF_CELLS = 64
 
-SIZE_OF_CANVAS_IN_PIXELS_X = 100
-SIZE_OF_CANVAS_IN_PIXELS_Y = 200
+SIZE_OF_CANVAS_IN_PIXELS_X = 400
+SIZE_OF_CANVAS_IN_PIXELS_Y = 600
 
 simulation_params = {
     'n_residents' : UserSettableParameter(
@@ -37,30 +39,34 @@ simulation_params = {
 def agent_portrayal(agent):
     print(f"Uid: {agent.unique_id}")
     portrayal = {
-            "Shape": "arrowHead",
             "Filled": "true",
             "Layer": 2,
-            "Color": ["#00FF00", "#99FF99"],
-            "stroke_color": "#666666",
-            "Filled": "true",
-            "text": agent.unique_id,
-            "text_color": "white",
-            "scale": 0.8,
+            "Color": "red",
+            "heading_x": -1,
+            "heading_y": 0,
         }
-    # portrayal = {
-    #     "Shape": "cicrle",
-    #     "Filled": "true",
-    #     "Layer": 0,
-    #     "Color": "blue",
-    #     "r":50 ,
-    # }
-    # if isinstance(agent, ResidentAgent):
-    #     portrayal['Color'] = 'blue'
-    #     portrayal['Layer'] = 0
-    # else:
-    #     portrayal['Color'] = 'red'
-    #     portrayal['Layer'] = 1
-    #     portrayal['r'] = 0.2  
+    if isinstance(agent, ResidentAgent):
+        print("Is resident!!!")
+        portrayal['Color'] = 'blue'
+        portrayal['Layer'] = 0
+        portrayal['Shape'] = 'circle'
+        portrayal['r'] = 2
+    elif isinstance(agent, RobotAgent):
+         print("Is robot!!! {agent.heading}")
+         portrayal['Color'] = 'red'
+         portrayal['Layer'] = 1
+         portrayal['Shape'] = 'arrowHead'
+         portrayal['scale'] = 5
+        #  portrayal['heading_x'] = 0,
+        #  portrayal["heading_y"] = 1,
+    else:
+         print("Is robot!!! {agent.heading}")
+         portrayal['Color'] = 'red'
+         portrayal['Layer'] = 1
+         portrayal['Shape'] = 'arrowHead'
+         portrayal['scale'] = 5
+
+
     print(portrayal)
     return portrayal
 

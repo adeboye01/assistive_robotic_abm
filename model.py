@@ -12,7 +12,7 @@ class CareHomeModel(Model):
     def __init__(self, n_residents, n_robots, width, height):
         self.num_residents = n_residents
         self.num_robots = n_robots
-        
+        self.headings = {(1, 0), (0, 1), (-1, 0), (0, -1)}
         self.grid = mesa.space.MultiGrid(width, height, True)
         self.schedule = mesa.time.RandomActivation(self)
         self.running = True
@@ -29,7 +29,11 @@ class CareHomeModel(Model):
             y = self.random.randrange(self.grid.height)
             self.grid.place_agent(a, (x, y))
         for i in range(self.num_residents+1,self.num_robots+self.num_residents):
-            b = RobotAgent(i, self)
+            x = self.random.randrange(self.grid.width)
+            y = self.random.randrange(self.grid.height)
+            pos = (x, y)
+            heading = (1, 0)
+            b = RobotAgent(i, pos,heading,self)
             #b = NurseAgent(i, self)
             #c = RobotAgent(i, self)
             self.schedule.add(b)
