@@ -2,25 +2,48 @@ import mesa
 from mesa import Agent
 
 class ResidentAgent(mesa.Agent):
-    """An agent living the care home."""
+    """Resident agent."""
 
-    def __init__(self, unique_id, model, level_of_movement):
+    def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.level_of_movement = level_of_movement   
-    
+        self.residence = 1
+        
+    def step(self) -> None:                                                                                                             
+        self.move()   
+        if self.residence > 0:
+            self.walk()
+        
+    def walk(self):
+        cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        if len(cellmates) > 1:
+            other = self.random.choice(cellmates)
+            other.residence += 1
+            self.residence -= 1
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
         )
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
-class NurseAgent(mesa.Agent):
-    """An agent living the care home."""
 
-    def __init__(self, unique_id, model, level_of_movement):
+class NurseAgent(mesa.Agent):
+    """Nurse agent."""
+
+    def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.level_of_movement = level_of_movement   
-    
+        self.nurses = 1
+        
+    def step(self) -> None:                                                                                                             
+        self.move()   
+        if self.nurses > 0:
+            self.walk()
+        
+    def walk(self):
+        cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        if len(cellmates) > 1:
+            other = self.random.choice(cellmates)
+            other.nurses += 1
+            self.nurses -= 1
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
@@ -28,15 +51,26 @@ class NurseAgent(mesa.Agent):
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
 class RobotAgent(mesa.Agent):
-    """An agent living the care home."""
+    """Robot agent."""
 
-    def __init__(self, unique_id, model, level_of_movement):
+    def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.level_of_movement = level_of_movement   
-    
+        self.residence = 1
+        
+    def step(self) -> None:                                                                                                             
+        self.move()   
+        if self.robot > 0:
+            self.walk()
+        
+    def walk(self):
+        cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        if len(cellmates) > 1:
+            other = self.random.choice(cellmates)
+            other.robot += 1
+            self.robot -= 1
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
         )
         new_position = self.random.choice(possible_steps)
-        self.model.grid.move_agent(self, new_position)
+        self.model.grid.move_agent(self, new_position)   
