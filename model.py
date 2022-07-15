@@ -27,8 +27,8 @@ class CareHomeModel(Model):
             # Add the agent to a random grid cell
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a (x, y))
-        for i in range(self.num_robots):
+            self.grid.place_agent(a, (x, y))
+        for i in range(self.num_residents+1,self.num_robots+self.num_residents):
             b = RobotAgent(i, self)
             #b = NurseAgent(i, self)
             #c = RobotAgent(i, self)
@@ -38,6 +38,6 @@ class CareHomeModel(Model):
             # Add the agent to a random grid cell
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(b (x, y))
+            self.grid.place_agent(b, (x, y))
     def step(self):
         self.schedule.step()
