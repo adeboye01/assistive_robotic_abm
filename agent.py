@@ -59,15 +59,16 @@ class RobotAgent(mesa.Agent):
         
     def step(self) -> None:                                                                                                             
         self.move()   
-        if self.robot > 0:
-            self.walk()
+        # if self.robot > 0:
+        #     self.walk()
         
     def walk(self):
-        cellmates = self.model.grid.get_cell_list_contents([self.pos])
-        if len(cellmates) > 1:
-            other = self.random.choice(cellmates)
-            other.robot += 1
-            self.robot -= 1
+        #cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        # if len(cellmates) > 1:
+        #     other = self.random.choice(cellmates)
+        #     other.robot += 1
+        #     self.robot -= 1
+        print("walk robot")
     def move(self):
         possible_steps = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False
