@@ -6,6 +6,7 @@ from traitlets import Integer
 from model import CareHomeModel
 from agent import ResidentAgent
 from agent import RobotAgent
+from agent import NurseAgent
 from mesa.visualization.modules import CanvasGrid
 
 NUMBER_OF_CELLS = 64
@@ -32,6 +33,15 @@ simulation_params = {
         1, #step
         description="choose how many games to include in the simulation",
     ),
+    'n_nurses' : UserSettableParameter(
+        'slider',
+        'Number of Nurses',
+        2, #default
+        3, #min
+        10, #max
+        1, #step
+        description="choose how many games to include in the simulation",
+    ),
     'width': NUMBER_OF_CELLS,
     'height': NUMBER_OF_CELLS,
 }
@@ -40,33 +50,40 @@ def agent_portrayal(agent):
     print(f"Uid: {agent.unique_id}")
     portrayal = {
             "Filled": "true",
-            "Layer": 2,
+            "Layer": 1,
             "Color": "red",
             "heading_x": -1,
             "heading_y": 0,
         }
     if isinstance(agent, ResidentAgent):
         print("Is resident!!!")
-        portrayal['Color'] = 'blue'
+        portrayal['Color'] = 'red'
         portrayal['Layer'] = 0
         portrayal['Shape'] = 'circle'
-        portrayal['r'] = 2
+        portrayal['r'] = 6
+        
     elif isinstance(agent, RobotAgent):
-         print("Is robot!!! {agent.heading}")
-         portrayal['Color'] = 'red'
-         portrayal['Layer'] = 1
-         portrayal['Shape'] = 'arrowHead'
-         portrayal['scale'] = 5
-        #  portrayal['heading_x'] = 0,
-        #  portrayal["heading_y"] = 1,
+        print("Is robot!!! {agent.heading}")
+        portrayal['Color'] = 'blue'
+        portrayal['Layer'] = 1
+        portrayal['Shape'] = 'rect'
+        portrayal['w'] = 6
+        portrayal['h'] = 4
+    
+    #elif isinstance(agent, NurseAgent):
+#    else:
+ #       print("Is nurse!!!")
+  #      portrayal['Color'] = 'red'
+   #     portrayal['Layer'] = 0
+    #    portrayal['Shape'] = 'circle'
+     #   portrayal['r'] = 2
     else:
-         print("Is robot!!! {agent.heading}")
-         portrayal['Color'] = 'red'
-         portrayal['Layer'] = 1
+         print("Is nurse!!! {agent.heading}")
+         portrayal['Color'] = 'black'
+         portrayal['Layer'] = 2
          portrayal['Shape'] = 'arrowHead'
-         portrayal['scale'] = 5
-
-
+         portrayal['scale'] = 6
+         
     print(portrayal)
     return portrayal
 
