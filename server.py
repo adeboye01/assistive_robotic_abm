@@ -7,11 +7,11 @@ from model import CareHomeModel
 from agent import ResidentAgent
 from agent import RobotAgent
 from mesa.visualization.modules import CanvasGrid
-
-NUMBER_OF_CELLS =64
+from agent import NurseAgent
+NUMBER_OF_CELLS =80
 
 SIZE_OF_CANVAS_IN_PIXELS_X = 400
-SIZE_OF_CANVAS_IN_PIXELS_Y = 600
+SIZE_OF_CANVAS_IN_PIXELS_Y = 500
 
 simulation_params = {
     'n_residents' : UserSettableParameter(
@@ -32,15 +32,15 @@ simulation_params = {
         1, #step
         description="choose how many games to include in the simulation",
     ),
-    #'n_nurses' : UserSettableParameter(
-     #   'slider',
-      #  'Number of Nurses',
-       # 1, #default
-        #1, #min
-        #2, #max
-        #1, #step
-        #description="choose how many games to include in the simulation",
-    #),
+    'n_nurses' : UserSettableParameter(
+        'slider',
+        'Number of Nurses',
+        1, #default
+        1, #min
+        2, #max
+        1, #step
+        description="choose how many games to include in the simulation",
+    ),
     'width': NUMBER_OF_CELLS,
     'height': NUMBER_OF_CELLS,
 }
@@ -61,26 +61,21 @@ def agent_portrayal(agent):
         portrayal['Shape'] = 'circle'
         portrayal['r'] = 6
         
-    else:
-        print("Is robot!!! {agent.heading}")
+    elif isinstance(agent, RobotAgent):
+        print("Is robot!!! ")
         portrayal['Color'] = 'black'
         portrayal['Layer'] = 2
         portrayal['Shape'] = 'arrowHead'
         portrayal['scale'] = 6
     
-    #elif isinstance(agent, NurseAgent):
-#    else:
- #       print("Is nurse!!!")
-  #      portrayal['Color'] = 'red'
-   #     portrayal['Layer'] = 0
-    #    portrayal['Shape'] = 'circle'
-     #   portrayal['r'] = 2
-    #else:
-     #    print("Is nurse!!! {agent.heading}")
-      #   portrayal['Color'] = 'black'
-       #  portrayal['Layer'] = 2
-        # portrayal['Shape'] = 'arrowHead'
-         #portrayal['scale'] = 6
+   
+    else:
+        print("Is nurse!!! {agent.heading}")
+        portrayal['Color'] = 'blue'
+        portrayal['Layer'] = 1
+        portrayal['Shape'] = 'rect'
+        portrayal['w'] = 3
+        portrayal['h'] = 2
          
     print(portrayal)
     

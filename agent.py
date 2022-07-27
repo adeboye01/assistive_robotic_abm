@@ -1,6 +1,7 @@
+#importing necessary modules
 import mesa
 from mesa import Agent
-
+#Defining the Resident agent
 class ResidentAgent(mesa.Agent):
     """Resident agent."""
 
@@ -25,6 +26,7 @@ class ResidentAgent(mesa.Agent):
         
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
+#Defining Robot Agent
 class RobotAgent(mesa.Agent):
     """Robot agent."""
 
@@ -48,10 +50,10 @@ class RobotAgent(mesa.Agent):
         possible_steps = [(self.pos[0],self.pos[1]), (self.pos[0],self.pos[1]-1)]
         new_position = self.random.choice(possible_steps)
         self.model.grid.move_agent(self, new_position)
+#Defining Nurse Agent
+class NurseAgent(mesa.Agent):
+   """Nurse agent."""
 
-#class NurseAgent(mesa.Agent):
- #  """Resident agent."""
-
-  # def __init__(self, unique_id, model):
-   #     super().__init__(unique_id, model)
-    #    self.nurse = 1      
+   def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+        self.nurse = 1      
